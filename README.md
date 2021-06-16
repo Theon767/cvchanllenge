@@ -1,2 +1,2 @@
 # cvchanllenge
-This is a prostory for CV chanllenge.
+This is a Repository for CV chanllenge.
