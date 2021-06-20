@@ -1,8 +1,8 @@
-function [co,normalized]=Luminormalization(pics)
+function normalized=Luminormalization(pics,contrast,lumi)
 normalized={};
-normalized{1}=pics{1};
-for i=2:length(pics)
-k=sum(sum(double(pics{i})))/sum(sum(double(pics{1})));
-normalized{i}=uint8(round(k.*double(pics{i})));
-co(i)=k;
+[m,n]=size(pics{1});
+for i=1:length(pics)
+    A=double(pics{i});
+    A=(A-(sum(sum(A))/m/n).*ones(m,n))./std2(A);
+    normalized{i}=uint8(round(A*contrast+lumi));
 end

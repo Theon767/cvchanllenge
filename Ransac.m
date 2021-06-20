@@ -1,4 +1,4 @@
-function [bestH] = Ransac(corr, nIter, tol)
+function [inlier,bestH] = Ransac(corr, nIter, tol)
 % INPUTS
 % locs1 and locs2 - matrices specifying point locations in each of the images
 % matches - matrix specifying matches between these two sets of point locations
@@ -17,9 +17,10 @@ p23 = [p2;ones(1,N)];
 inlier = zeros(1,N);
 p1=p1';
 p2=p2';
+determax=inf;
 for i = 1:nIter
     
-    rand_ind = randperm(size(p1,1),4);
+    rand_ind = randperm(length(p1),4);
     p1_rand = p1(rand_ind,:);
     p2_rand = p2(rand_ind,:);
     % randomly pick 4 pairs of points to compute original H
@@ -35,13 +36,21 @@ for i = 1:nIter
     p23_d = H0*p23;
     p23_d(1,:) = p23_d(1,:)./p23_d(3,:);
     p23_d(2,:) = p23_d(2,:)./p23_d(3,:);
+    
     deter = p13-p23_d;
     deter = sqrt(sum(deter.^2));
+    deter_current=sum(deter);
     inlier_current = deter<tol;
     % logistic values and 1 means satisfied deter<tol
     if sum(inlier_current) > sum(inlier)
         inlier = inlier_current;
         % return the inlier with most inlier
+    else if sum(inlier_current)==sum(inlier)
+            if deter_current<determax
+         inlier = inlier_current;
+         determax=deter_current;
+            end
+        end
     end
     
 end  

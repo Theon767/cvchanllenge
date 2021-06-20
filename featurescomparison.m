@@ -2,13 +2,9 @@ function matched_points=featurescomparison(pics)
 features={};
 matched_points={};
 temp={};
-for i=1:length(pics)
-    features{i}=detectSURFFeatures(pics{1});
-end
-A=detectSURFFeatures(pics{1});
-[f1,vpts1]=extractFeatures(pics{1},A);
-
 for i=2:length(pics)
+    A=detectSURFFeatures(pics{i-1});
+    [f1,vpts1]=extractFeatures(pics{i-1},A);
 B=detectSURFFeatures(pics{i});
 [f2,vpts2]=extractFeatures(pics{i},B);
 indexPairs = matchFeatures(f1,f2);

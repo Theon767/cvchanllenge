@@ -17,7 +17,7 @@ A = [A1;A2];
 % the sequence of rows in A will not affect matrix V which yield the output
 % i.e. the equation is sequencial or alternative are both ok
 
-[U,S,V] = svd(A);
+[~,~,V] = svd(A);
 h = V(:,end);
 % [V,D]=eig(A'*A);
 % h=V(:,1);
@@ -27,6 +27,7 @@ h = V(:,end);
 H2to1 = reshape(h,[3,3]);
 % H2to1=inv(T1)*H2to1*T2;
 % With normalization, use the formula above
+%[~,S,~]=svd(H2to1);
 H2to1 = H2to1';
 % you have to do the transpose no matter using svd or eig
 % just to remind myself
